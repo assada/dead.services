@@ -1,0 +1,22 @@
+version: '3'
+services:
+  caddy:
+    restart: always
+    image: lucaslorentz/caddy-docker-proxy:0.3-alpine
+    ports:
+      - 80:80
+      - 443:443
+      - 2015:2015
+    networks:
+      - caddy
+    command: -email assada.ua@gmail.com -agree=true -log stdout
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - caddy:/root/.caddy
+volumes:
+  caddy:
+    external: true
+networks:
+  caddy:
+    external:
+      name: dead-services

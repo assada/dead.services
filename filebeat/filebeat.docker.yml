@@ -1,0 +1,30 @@
+filebeat.config:
+  modules:
+    path: ${path.config}/modules.d/*.yml
+    reload.enabled: true
+    reload.period: 10s
+
+setup.template.settings:
+  index.number_of_shards: 1
+  index.codec: best_compression
+
+filebeat.autodiscover:
+  providers:
+    - type: docker
+      hints.enabled: true
+
+processors:
+  - decode_json_fields:
+      fields: [ "message" ]
+      process_array: false
+      max_depth: 5
+      target: ""
+      overwrite_keys: false
+      add_error_key: true
+  - add_host_metadata: ~
+  - add_cloud_metadata: ~
+
+output.elasticsearch:
+  hosts: '${ELASTICSEARCH_HOSTS:elasticsearch:9200}'
+  username: '${ELASTICSEARCH_USERNAME:}'
+  password: '${ELASTICSEARCH_PASSWORD:}'

@@ -1,0 +1,39 @@
+global:
+  scrape_interval:     15s
+  evaluation_interval: 15s
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+
+rule_files:
+scrape_configs:
+  - job_name: cadvisor
+    scrape_interval: 5s
+    static_configs:
+      - targets:
+          - 134.209.237.233:9401
+          - 178.128.206.11:9401
+          - dead.services:9401
+  - job_name: node
+    scrape_interval: 5s
+    static_configs:
+      - targets:
+          - 134.209.237.233:9402
+          - 178.128.206.11:9402
+          - 139.59.149.185:9402
+          - 167.71.42.39:9402
+          - dead.services:9402
+  - job_name: pushgateway
+    scrape_interval: 5s
+    static_configs:
+      - targets:
+          - dead.services:9091
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['dead.services:9090']
+  - job_name: telegraf
+    scrape_interval: 5s
+    static_configs:
+      - targets:
+          - 178.128.206.11:9273

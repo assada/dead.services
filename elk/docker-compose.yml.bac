@@ -71,6 +71,6 @@ services:
 networks:
   caddy:
     external:
-      name: dead-services
+      name: assada-services
 volumes:
   elasticsearch:

@@ -2,6 +2,7 @@ version: '3.2'
 
 services:
   elasticsearch:
+    restart: always
     build:
       context: elasticsearch/
       args:
@@ -19,7 +20,7 @@ services:
       - "9300:9300"
     environment:
       ES_JAVA_OPTS: "-Xmx256m -Xms256m"
-      ELASTIC_PASSWORD: changeme
+      ELASTIC_PASSWORD: secret
       # Use single node discovery in order to disable production mode and avoid bootstrap checks
       # see https://www.elastic.co/guide/en/elasticsearch/reference/current/bootstrap-checks.html
       discovery.type: single-node
@@ -27,6 +28,7 @@ services:
       - caddy
 
   logstash:
+    restart: always
     build:
       context: logstash/
       args:
@@ -52,6 +54,7 @@ services:
       - elasticsearch
 
   kibana:
+    restart: always
     build:
       context: kibana/
       args:
@@ -67,6 +70,10 @@ services:
       - caddy
     depends_on:
       - elasticsearch
+    labels:
+      caddy.address: "https://kibana.dead.services"
+      caddy.tls: "assada.ua@gmail.com"
+      caddy.targetport: 5601
 
 networks:
   caddy:
