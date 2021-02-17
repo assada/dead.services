@@ -8,5 +8,3 @@ docker run \
     -v prometheus:/prometheus \
     --name=prometheus \
     prom/prometheus
-
-docker run -d -p 9091:9091 --name=pushgateway --restart=always prom/pushgateway
